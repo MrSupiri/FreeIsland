@@ -1,0 +1,122 @@
+{
+    "name": "PlayerAction",
+    "maps": [
+        {
+            "name": "PlayerControls",
+            "id": "da43d6f7-70b9-4ceb-ae81-0b90caeee2b4",
+            "actions": [
+                {
+                    "name": "Chat",
+                    "type": "Button",
+                    "id": "bdc4ba16-4a88-4e38-be0b-a161de022e5e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "8bce8b97-8e6b-4a0d-816c-e3fec5af8c87",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Chat",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "DummyAnimation",
+            "id": "80b11504-8ae1-4465-acd6-f2cd3d82fd08",
+            "actions": [
+                {
+                    "name": "Sit",
+                    "type": "Button",
+                    "id": "204f3ba6-a4a3-42ee-86d8-6a6c6cf1b69a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Walk",
+                    "type": "Button",
+                    "id": "00e5d48c-853a-4a5c-a332-7ee738b7b94e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "EnterInteract",
+                    "type": "Button",
+                    "id": "6b7dd0d7-d41d-4b8f-9533-5093eb2a8961",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ExitInteract",
+                    "type": "Button",
+                    "id": "bc3cf06f-f398-4e03-bc2a-84e0beefdf07",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f47ed06e-ba18-41ed-a443-4c00efe6b0f6",
+                    "path": "<Keyboard>/f1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Sit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "41a5c5ef-3d22-4285-a254-c9f182ec2dc2",
+                    "path": "<Keyboard>/f2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Walk",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "91284783-d82a-43e0-a3a1-1972bfac9fa5",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EnterInteract",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cc46fe44-c514-4374-8706-e33cbf7bc78c",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ExitInteract",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
