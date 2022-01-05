@@ -20,7 +20,7 @@ public class Navigate : MonoBehaviour
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.Euler(Vector3.zero);
 
-        animator.SetFloat("Velocity", agent.velocity.magnitude);
+        //animator.SetFloat("Velocity", agent.velocity.magnitude);
 
         if(target != null)
         {
