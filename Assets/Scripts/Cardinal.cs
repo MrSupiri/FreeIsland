@@ -31,7 +31,9 @@ public class Cardinal : MonoBehaviour
         {
             yield return new WaitWhile(() => NumberOfActiveNPC >= RequiredNumberOfNPC || NumberOfPeopleInQueue >= 5);
 
-            GameObject character = Instantiate(listOfNPC[1] as GameObject, SPAWN_POINT, Quaternion.identity);
+            GameObject character = Instantiate(listOfNPC[Random.Range(0, listOfNPC.Length)] as GameObject, SPAWN_POINT, Quaternion.identity);
+
+            character.name = character.name.Replace("(Clone)","");
 
             Navigate navigator = character.transform.Find("NPC").GetComponent<Navigate>();
 

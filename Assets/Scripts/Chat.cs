@@ -44,8 +44,7 @@ public class Chat : MonoBehaviour
 
         targetGroup.m_Targets[1] = new CinemachineTargetGroup.Target { target = transform.parent.parent.parent, weight = 2, radius = 1 };
 
-        Stratification = RandomFloat(-2, 3);
-
+        Stratification = UnityEngine.Random.Range(-2, 4);
         animator.SetLayerWeight(animator.GetLayerIndex("Talking"), 1);
     }
 
@@ -184,17 +183,10 @@ public class Chat : MonoBehaviour
                 animator.SetInteger("Talk", 4);
                 break;
             case "neutrality":
-                animator.SetInteger("Talk", Convert.ToInt32(RandomFloat(5,7)));
+                animator.SetInteger("Talk", UnityEngine.Random.Range(5, 8));
                 break;
         }
         Debug.Log($"{mood} {animator.GetInteger("Talk")}");
-    }
-
-    static float RandomFloat(float min, float max)
-    {
-        System.Random random = new();
-        double val = (random.NextDouble() * (max - min) + min);
-        return (float)val;
     }
 }
 
