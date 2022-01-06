@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Cinemachine;
 using UnityEngine.Networking;
 using System;
+using Unity.Collections;
 
 public class Chat : MonoBehaviour
 {
@@ -15,7 +16,12 @@ public class Chat : MonoBehaviour
     private CinemachineTargetGroup targetGroup;
 
     public string NPCName = "NPC";
-    public string Mood = "";
+    public string Pronoun = "he";
+    public string Mood = "in bad mood and don't want to talk to anyone";
+    public string Order = "two burgers and fries";
+    [ReadOnly]
+    public string Reaction = "";
+    [ReadOnly]
     public float Stratification = 0;
 
     public void Start()
@@ -25,7 +31,6 @@ public class Chat : MonoBehaviour
         playerInput = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>();
         animator = transform.parent.parent.parent.gameObject.GetComponent<Animator>();
         targetGroup = GameObject.Find("/Player/TargetGroup").GetComponent<CinemachineTargetGroup>();
-      
 
         if (NPCName == "NPC" || NPCName == "")
         {
@@ -40,8 +45,8 @@ public class Chat : MonoBehaviour
         targetGroup.m_Targets[1] = new CinemachineTargetGroup.Target { target = transform.parent.parent.parent, weight = 2, radius = 1 };
 
         Stratification = RandomFloat(-2, 3);
-        //animator.SetLayerWeight(0, 0);
-        //animator.SetLayerWeight(1, 1);
+
+        animator.SetLayerWeight(animator.GetLayerIndex("Talking"), 1);
     }
 
     private void OnEnable()
@@ -49,9 +54,9 @@ public class Chat : MonoBehaviour
         if (playerInput == null || inputField == null) return;
         targetGroup.m_Targets[1] = new CinemachineTargetGroup.Target { target = transform.parent.parent.parent, weight = 2, radius = 1 };
         playerInput.enabled = false;
-        StartCoroutine(DelayedEnable());
-        //animator.SetLayerWeight(0, 0);
-        //animator.SetLayerWeight(1, 1);
+        if (gameObject.activeInHierarchy)
+            StartCoroutine(DelayedEnable());
+        animator.SetLayerWeight(animator.GetLayerIndex("Talking"), 1);
     }
 
     /// <summary>
@@ -69,8 +74,8 @@ public class Chat : MonoBehaviour
         StopAllCoroutines();
         playerInput.enabled = true;
         ResetTextBox(false);
-        //animator.SetLayerWeight(0, 1);
-        //animator.SetLayerWeight(1, 0);
+        animator.SetLayerWeight(animator.GetLayerIndex("Talking"), 0);
+
     }
 
     public void OnSubmit(string request)
@@ -82,7 +87,8 @@ public class Chat : MonoBehaviour
         };
         inputField.interactable = false;
         animator.SetBool("Thinking", true);
-        StartCoroutine(GenerateReply("Alex", "two burgers", "he", "Alex is in bad mood and don't want to talk to anyone", request));
+        if (gameObject.activeInHierarchy)
+            StartCoroutine(GenerateReply(request));
     }
 
     private void UpdateTextBox(string request)
@@ -97,26 +103,44 @@ public class Chat : MonoBehaviour
         inputField.SetTextWithoutNotify("");
         inputField.Select();
         if (Wait)
-            StartCoroutine(ResetAnimation());
+        {
+            if (gameObject.activeInHierarchy)
+                StartCoroutine(ResetAnimation());
+        }
         else
             animator.SetInteger("Talk", 0);
     }
     IEnumerator ResetAnimation()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(4);
         animator.SetInteger("Talk", 0);
     }
 
-    IEnumerator GenerateReply(string name, string order, string pronoun, string mood, string request)
+    IEnumerator SetAnimationLayer(bool revert = false)
+    {
+        var index = animator.GetLayerIndex("Talking");
+        yield return new WaitForSeconds(0.1f);
+        for (float i = 0; i < 1;)
+        {
+            animator.SetLayerWeight(index, i);
+            if (revert)
+                i -= 0.1f;
+            else
+                i -= 0.1f;
+        }
+    }
+
+    IEnumerator GenerateReply(string request)
     {
         var query = new Query
         {
-            name = name,
-            order = order,
-            pronoun = pronoun,
-            mood = mood,
+            name = NPCName,
+            order = Order,
+            pronoun = Pronoun,
+            mood = $"{NPCName} is in bad mood and don't want to talk to anyone",
             prompt = request,
-            apiKey = "Lp8G4DoEyKXYZscko2ADXNiLxrDH"
+            apiKey = "Lp8G4DoEyKXYZscko2ADXNiLxrDH",
+            mock = true
         };
         string json = JsonUtility.ToJson(query);
         var uwr = new UnityWebRequest("https://asia-southeast1-iconicto.cloudfunctions.net/free-island-nlp", "POST");
@@ -136,7 +160,7 @@ public class Chat : MonoBehaviour
         {
             var reponse = JsonUtility.FromJson<NLPReponse>(uwr.downloadHandler.text);
             this.Stratification += reponse.score;
-            this.Mood = reponse.mood;
+            this.Reaction = reponse.mood;
             this.MapAnimation(reponse.mood);
             this.UpdateTextBox(reponse.reply);
         }
@@ -163,6 +187,7 @@ public class Chat : MonoBehaviour
                 animator.SetInteger("Talk", Convert.ToInt32(RandomFloat(5,7)));
                 break;
         }
+        Debug.Log($"{mood} {animator.GetInteger("Talk")}");
     }
 
     static float RandomFloat(float min, float max)
@@ -191,4 +216,5 @@ public class Query
     public string mood;
     public string prompt;
     public string apiKey;
+    public bool mock;
 }
