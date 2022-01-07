@@ -24,9 +24,9 @@ public class HUDController : MonoBehaviour
 
     private void LateUpdate()
     {
-        Vector3 miniMapNewPos = player.position;
-        miniMapNewPos.y = miniMapCamara.position.y;
-        miniMapCamara.position = miniMapNewPos;
+        //Vector3 miniMapNewPos = player.position;
+        //miniMapNewPos.y = miniMapCamara.position.y;
+        //miniMapCamara.position = miniMapNewPos;
 
     }
 }

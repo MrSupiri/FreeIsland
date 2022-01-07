@@ -8,6 +8,7 @@ public class Cardinal : MonoBehaviour
     public int RequiredNumberOfNPC = 2;
     //public readonly Vector3 SPAWN_POINT = new(-35, 0, -40);
     public readonly Vector3 SPAWN_POINT = new(0, 0, 20);
+    public static List<Mission> missions = new();
     private Kitchen kitchen;
     private Object[] listOfNPC;
     private int NumberOfPeopleInQueue = 0;
@@ -47,4 +48,12 @@ public class Cardinal : MonoBehaviour
             yield return new WaitForSeconds(2);
         }
     }
+}
+
+public class Mission
+{
+    public string Message;
+    public Transform Location;
+    public bool Rendered = false;
+    public float Reward;
 }

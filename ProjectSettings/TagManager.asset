@@ -9,6 +9,7 @@ TagManager:
   - Scripts
   - NPC
   - Interactions
+  - MissionText
   layers:
   - Default
   - TransparentFX

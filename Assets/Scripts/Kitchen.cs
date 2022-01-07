@@ -12,15 +12,13 @@ public class Kitchen : MonoBehaviour
     public Queue<Order> OnGoingOrders = new();
     public Queue<Order> CookedOrders = new();
     public ChefStatus ChefCurrentStatus = ChefStatus.Idle;
+#nullable enable
     private Order? cookingOrder;
-    public void JoinQueue(Navigate npcNavigator)
-    {
-        OnChange += npcNavigator.UpdateQueuePos;
-        queue.Enqueue(npcNavigator);
-    }
+#nullable disable
 
     private void OnTriggerEnter(Collider collider)
     {
+        if (queue.Count == 0) return;
         if (collider.gameObject == queue.Peek().gameObject && !Ordering)
         {
             Ordering = true;
@@ -39,15 +37,30 @@ public class Kitchen : MonoBehaviour
 
         if (cookingOrder == null && ChefCurrentStatus == ChefStatus.Cooking)
         {
-            StartCoroutine(PrepOrder(OnGoingOrders.Dequeue()));
+            if (OnGoingOrders.Count != 0)
+            {
+                StartCoroutine(PrepOrder(OnGoingOrders.Dequeue()));
+            }
         }
 
+        if (queue.Count == 0 && OnGoingOrders.Count == 0 && cookingOrder == null)
+        {
+            ChefCurrentStatus = ChefStatus.Idle;
+        }
+
+    }
+    public void JoinQueue(Navigate npcNavigator)
+    {
+        OnChange += npcNavigator.UpdateQueuePos;
+        queue.Enqueue(npcNavigator);
     }
 
     IEnumerator PrepOrder(Order order){
         cookingOrder = order;
         yield return new WaitForSeconds(order.TimeToCook);
+        Cardinal.missions.Add(new Mission { Message = $"{order.Customer.name}'s order is Ready!", Location = order.Customer.transform, Reward = order.Price});
         CookedOrders.Enqueue(cookingOrder);
+        cookingOrder = null;
     }
 
     IEnumerator PlaceTheOrder()
