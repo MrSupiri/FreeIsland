@@ -46,6 +46,7 @@ public class Navigate : MonoBehaviour
 
         agent.destination = targetLocation;
 
+
         if (agent.remainingDistance <= agent.stoppingDistance)
         {
             //Debug.Log($"{agent.remainingDistance} {agent.stoppingDistance}");
@@ -65,6 +66,7 @@ public class Navigate : MonoBehaviour
 
 
     }
+
     public void NavigateTo(NavLocationType locationType)
     {
         if (agent != null)
