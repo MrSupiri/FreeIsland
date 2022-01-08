@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using System;
+
 
 public class Cardinal : MonoBehaviour
 {
@@ -10,12 +13,15 @@ public class Cardinal : MonoBehaviour
     public readonly Vector3 SPAWN_POINT = new(0, 0, 20);
     public static List<Mission> missions = new();
     private Kitchen kitchen;
-    private Object[] listOfNPC;
+    private UnityEngine.Object[] listOfNPC;
     private int NumberOfPeopleInQueue = 0;
+    public GameObject clock;
+    private Text _clock;
     void Start()
     {
         listOfNPC = Resources.LoadAll("NPCs", typeof(GameObject));
         kitchen = GameObject.Find("/Cafe/OrderLocation").GetComponent<Kitchen>();
+        _clock = clock.GetComponent<Text>();
         StartCoroutine(SpawnNPCs());
     }
 
@@ -23,6 +29,7 @@ public class Cardinal : MonoBehaviour
     void Update()
     {
         NumberOfPeopleInQueue = kitchen.queue.Count;
+        _clock.text = DateTime.Now.ToString("hh:mm tt");
     }
 
     IEnumerator SpawnNPCs()
@@ -32,7 +39,7 @@ public class Cardinal : MonoBehaviour
         {
             yield return new WaitWhile(() => NumberOfActiveNPC >= RequiredNumberOfNPC || NumberOfPeopleInQueue >= 5);
 
-            GameObject character = Instantiate(listOfNPC[Random.Range(0, listOfNPC.Length)] as GameObject, SPAWN_POINT, Quaternion.identity);
+            GameObject character = Instantiate(listOfNPC[UnityEngine.Random.Range(0, listOfNPC.Length)] as GameObject, SPAWN_POINT, Quaternion.identity);
 
             character.name = character.name.Replace("(Clone)","");
 

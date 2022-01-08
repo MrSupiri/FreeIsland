@@ -13,7 +13,7 @@ public class Kitchen : MonoBehaviour
     public Queue<Order> CookedOrders = new();
     public ChefStatus ChefCurrentStatus = ChefStatus.Idle;
 #nullable enable
-    private Order? cookingOrder;
+    public Order? cookingOrder;
 #nullable disable
 
     private void OnTriggerEnter(Collider collider)
@@ -39,7 +39,7 @@ public class Kitchen : MonoBehaviour
         {
             if (OnGoingOrders.Count != 0)
             {
-                StartCoroutine(PrepOrder(OnGoingOrders.Dequeue()));
+                StartCoroutine(PrepOrder(OnGoingOrders.Peek()));
             }
         }
 
@@ -58,7 +58,8 @@ public class Kitchen : MonoBehaviour
     IEnumerator PrepOrder(Order order){
         cookingOrder = order;
         yield return new WaitForSeconds(order.TimeToCook);
-        Cardinal.missions.Add(new Mission { Message = $"{order.Customer.name}'s order is Ready!", Location = order.Customer.transform, Reward = order.Price});
+        Cardinal.missions.Add(new Mission { Message = $"{order.Customer.transform.parent.name}'s order is Ready!", Location = order.Customer.transform, Reward = order.Price});
+        OnGoingOrders.Dequeue();
         CookedOrders.Enqueue(cookingOrder);
         cookingOrder = null;
     }
