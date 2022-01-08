@@ -12,7 +12,7 @@ public class Navigate : MonoBehaviour
     public NavLocationType navLocationType;
     private Kitchen kitchen;
     private int queueNumber = 0;
-
+    private GameObject NPC;
     void Start()
     {
         kitchen = GameObject.Find("/Cafe/OrderLocation").GetComponent<Kitchen>();
@@ -20,6 +20,9 @@ public class Navigate : MonoBehaviour
         animator = transform.parent.GetComponent<Animator>();
         talkUI = transform.Find("TalkTrigger/Canvas").gameObject;
         orderLoaction = GameObject.Find("/Cafe/OrderLocation").transform;
+        NPC = transform.parent.gameObject;
+
+        InvokeRepeating("CheckDestination", 2.0f, 1f);
     }
 
     void Update()
@@ -46,7 +49,10 @@ public class Navigate : MonoBehaviour
 
         agent.destination = targetLocation;
 
+    }
 
+    private void CheckDestination()
+    {
         if (agent.remainingDistance <= agent.stoppingDistance)
         {
             //Debug.Log($"{agent.remainingDistance} {agent.stoppingDistance}");
@@ -61,24 +67,25 @@ public class Navigate : MonoBehaviour
                     transform.LookAt(orderLoaction);
                     //Stop();
                     break;
+                case NavLocationType.Leave:
+                    Destroy(NPC);
+                    Cardinal.NumberOfActiveNPC -= 1;
+                    break;
             }
         }
-
-
     }
 
     public void NavigateTo(NavLocationType locationType)
     {
         if (agent != null)
             agent.isStopped = false;
-        navLocationType = locationType;
 
         if(kitchen == null)
         {
             kitchen = GameObject.Find("/Cafe/OrderLocation").GetComponent<Kitchen>();
         }
 
-        switch (navLocationType)
+        switch (locationType)
         {
             case NavLocationType.Order:
                 targetLocation = new Vector3(10, 0, -1.4f + kitchen.queue.Count + 2);
@@ -91,6 +98,8 @@ public class Navigate : MonoBehaviour
                 targetLocation = new Vector3(-35, 0, -40);
                 break;
         }
+
+        navLocationType = locationType;
     }
 
     public void UpdateQueuePos()
