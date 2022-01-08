@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+
 
 public class Kitchen : MonoBehaviour
 {
@@ -10,11 +12,18 @@ public class Kitchen : MonoBehaviour
     public bool Ordering = false;
     public event Action OnChange;
     public Queue<Order> OnGoingOrders = new();
-    public Queue<Order> CookedOrders = new();
+    public List<Order> CookedOrders = new();
     public ChefStatus ChefCurrentStatus = ChefStatus.Idle;
 #nullable enable
     public Order? cookingOrder;
 #nullable disable
+    private GameObject foodTray;
+    private Queue<Order> PickedUpOrders = new();
+    private Order[] counter = new Order[3] { null, null, null };
+    private void Start()
+    {
+        foodTray = (GameObject) Resources.Load("FoodTray", typeof(GameObject));
+    }
 
     private void OnTriggerEnter(Collider collider)
     {
@@ -48,6 +57,31 @@ public class Kitchen : MonoBehaviour
             ChefCurrentStatus = ChefStatus.Idle;
         }
 
+
+        for(var i=0; i < Math.Min(CookedOrders.Count, 3); i++)
+        {
+            if (CookedOrders[i].PickedUp)
+            {
+                PickedUpOrders.Enqueue(CookedOrders[i]);
+                CookedOrders.RemoveAt(i);
+                counter[i] = null;
+                continue;
+            }
+            
+            if (!counter.Contains(CookedOrders[i]))
+            {
+                
+                var index = Array.IndexOf(counter, null);
+                if (index < 0) continue;
+                int offset = index % 3;
+                counter[index] = CookedOrders[i];
+                CookedOrders[i].FoodTray.transform.position = new(8.814f - (0.55f * offset), 1.085f, 1.244f);
+                CookedOrders[i].FoodTray.SetActive(true);
+            }
+
+        }
+
+
     }
     public void JoinQueue(Navigate npcNavigator)
     {
@@ -59,8 +93,18 @@ public class Kitchen : MonoBehaviour
         cookingOrder = order;
         yield return new WaitForSeconds(order.TimeToCook);
         Cardinal.missions.Add(new Mission { Message = $"{order.Customer.transform.parent.name}'s order is Ready!", Location = order.Customer.transform, Reward = order.Price});
+
+
+
+
+        order.FoodTray = Instantiate(foodTray, Vector3.zero, Quaternion.identity);
+        order.FoodTray.transform.parent = transform.parent;
+        order.FoodTray.name = $"{order.Customer.transform.parent.name} Order";
+        order.FoodTray.SetActive(false);
+
+
         OnGoingOrders.Dequeue();
-        CookedOrders.Enqueue(cookingOrder);
+        CookedOrders.Add(cookingOrder);
         cookingOrder = null;
     }
 
@@ -120,4 +164,6 @@ public class Order
     public float Price;
     public int TimeToCook;
     public GameObject Customer;
+    public GameObject FoodTray;
+    public bool PickedUp = false;
 }
