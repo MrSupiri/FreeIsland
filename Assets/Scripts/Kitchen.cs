@@ -16,9 +16,9 @@ public class Kitchen : MonoBehaviour
     public ChefStatus ChefCurrentStatus = ChefStatus.Idle;
 #nullable enable
     public Order? cookingOrder;
+    public static Order? PickedOrder;
 #nullable disable
     private GameObject foodTray;
-    private Queue<Order> PickedUpOrders = new();
     private Order[] counter = new Order[3] { null, null, null };
     private void Start()
     {
@@ -62,7 +62,7 @@ public class Kitchen : MonoBehaviour
         {
             if (CookedOrders[i].PickedUp)
             {
-                PickedUpOrders.Enqueue(CookedOrders[i]);
+                PickedOrder = CookedOrders[i];
                 CookedOrders.RemoveAt(i);
                 counter[i] = null;
                 continue;
@@ -92,7 +92,13 @@ public class Kitchen : MonoBehaviour
     IEnumerator PrepOrder(Order order){
         cookingOrder = order;
         yield return new WaitForSeconds(order.TimeToCook);
-        Cardinal.missions.Add(new Mission { Message = $"{order.Customer.transform.parent.name}'s order is Ready!", Location = order.Customer.transform, Reward = order.Price});
+        Cardinal.missions.Add(new Mission { 
+            ID = Guid.NewGuid().ToString(),
+            Message = $"{order.Customer.transform.parent.name}'s order is Ready!",
+            CustomerName = order.Customer.transform.parent.name,
+            Reward = order.Price,
+            Order = order
+        });
 
 
 

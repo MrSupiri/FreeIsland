@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Linq;
 
 
 public class Cardinal : MonoBehaviour
@@ -17,10 +18,15 @@ public class Cardinal : MonoBehaviour
     private int NumberOfPeopleInQueue = 0;
     public GameObject clock;
     private Text _clock;
+    private Transform taskList;
+#nullable enable
+    public static Mission? ActiveMission;
+#nullable disable
     void Start()
     {
         listOfNPC = Resources.LoadAll("NPCs", typeof(GameObject));
         kitchen = GameObject.Find("/Cafe/OrderLocation").GetComponent<Kitchen>();
+        taskList = GameObject.Find("/HUD/Mission/TaskList").transform;
         _clock = clock.GetComponent<Text>();
         StartCoroutine(SpawnNPCs());
     }
@@ -30,6 +36,23 @@ public class Cardinal : MonoBehaviour
     {
         NumberOfPeopleInQueue = kitchen.queue.Count;
         _clock.text = DateTime.Now.ToString("hh:mm tt");
+        
+        if (ActiveMission == null)
+        {
+            var activeMission = missions.FirstOrDefault(m => m.Order.Equals(Kitchen.PickedOrder));
+            if (activeMission != null)
+            {
+                activeMission.Message = $"Handover the order to {activeMission.CustomerName}";
+                ActiveMission = activeMission;
+                missions.ForEach(missions => missions.Rendered = false);
+                foreach (Transform child in taskList)
+                {
+                    Destroy(child.gameObject);
+                }
+            }
+        }
+
+
     }
 
     IEnumerator SpawnNPCs()
@@ -59,8 +82,10 @@ public class Cardinal : MonoBehaviour
 
 public class Mission
 {
+    public string ID;
     public string Message;
-    public Transform Location;
+    public string CustomerName;
     public bool Rendered = false;
     public float Reward;
+    public Order Order;
 }

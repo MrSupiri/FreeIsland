@@ -90,6 +90,15 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""HandOverOrder"",
+                    ""type"": ""Button"",
+                    ""id"": ""7fb03193-9284-45ea-b982-06f28314914a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -136,6 +145,17 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
                     ""action"": ""ExitInteract"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c4de283a-5466-4c93-b7f0-0eca7bc4ae6e"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HandOverOrder"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -151,6 +171,7 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
         m_DummyAnimation_Walk = m_DummyAnimation.FindAction("Walk", throwIfNotFound: true);
         m_DummyAnimation_EnterInteract = m_DummyAnimation.FindAction("EnterInteract", throwIfNotFound: true);
         m_DummyAnimation_ExitInteract = m_DummyAnimation.FindAction("ExitInteract", throwIfNotFound: true);
+        m_DummyAnimation_HandOverOrder = m_DummyAnimation.FindAction("HandOverOrder", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -247,6 +268,7 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
     private readonly InputAction m_DummyAnimation_Walk;
     private readonly InputAction m_DummyAnimation_EnterInteract;
     private readonly InputAction m_DummyAnimation_ExitInteract;
+    private readonly InputAction m_DummyAnimation_HandOverOrder;
     public struct DummyAnimationActions
     {
         private @PlayerAction m_Wrapper;
@@ -255,6 +277,7 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
         public InputAction @Walk => m_Wrapper.m_DummyAnimation_Walk;
         public InputAction @EnterInteract => m_Wrapper.m_DummyAnimation_EnterInteract;
         public InputAction @ExitInteract => m_Wrapper.m_DummyAnimation_ExitInteract;
+        public InputAction @HandOverOrder => m_Wrapper.m_DummyAnimation_HandOverOrder;
         public InputActionMap Get() { return m_Wrapper.m_DummyAnimation; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -276,6 +299,9 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
                 @ExitInteract.started -= m_Wrapper.m_DummyAnimationActionsCallbackInterface.OnExitInteract;
                 @ExitInteract.performed -= m_Wrapper.m_DummyAnimationActionsCallbackInterface.OnExitInteract;
                 @ExitInteract.canceled -= m_Wrapper.m_DummyAnimationActionsCallbackInterface.OnExitInteract;
+                @HandOverOrder.started -= m_Wrapper.m_DummyAnimationActionsCallbackInterface.OnHandOverOrder;
+                @HandOverOrder.performed -= m_Wrapper.m_DummyAnimationActionsCallbackInterface.OnHandOverOrder;
+                @HandOverOrder.canceled -= m_Wrapper.m_DummyAnimationActionsCallbackInterface.OnHandOverOrder;
             }
             m_Wrapper.m_DummyAnimationActionsCallbackInterface = instance;
             if (instance != null)
@@ -292,6 +318,9 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
                 @ExitInteract.started += instance.OnExitInteract;
                 @ExitInteract.performed += instance.OnExitInteract;
                 @ExitInteract.canceled += instance.OnExitInteract;
+                @HandOverOrder.started += instance.OnHandOverOrder;
+                @HandOverOrder.performed += instance.OnHandOverOrder;
+                @HandOverOrder.canceled += instance.OnHandOverOrder;
             }
         }
     }
@@ -306,5 +335,6 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
         void OnWalk(InputAction.CallbackContext context);
         void OnEnterInteract(InputAction.CallbackContext context);
         void OnExitInteract(InputAction.CallbackContext context);
+        void OnHandOverOrder(InputAction.CallbackContext context);
     }
 }

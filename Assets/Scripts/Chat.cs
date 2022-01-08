@@ -23,7 +23,6 @@ public class Chat : MonoBehaviour
     public string Reaction = "";
     [ReadOnly]
     public float Stratification = 0;
-
     public void Start()
     {
         replyTextBox = transform.Find("InputField/Reply").gameObject.GetComponent<Text>();
@@ -47,7 +46,10 @@ public class Chat : MonoBehaviour
         Stratification = UnityEngine.Random.Range(-2, 4);
         animator.SetLayerWeight(animator.GetLayerIndex("Talking"), 1);
     }
-
+    public float GetTip(float value)
+    {
+        return value * Stratification;
+    }
     private void OnEnable()
     {
         if (playerInput == null || inputField == null) return;

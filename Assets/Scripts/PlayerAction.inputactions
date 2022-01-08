@@ -68,6 +68,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "HandOverOrder",
+                    "type": "Button",
+                    "id": "7fb03193-9284-45ea-b982-06f28314914a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -112,6 +121,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "ExitInteract",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c4de283a-5466-4c93-b7f0-0eca7bc4ae6e",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HandOverOrder",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
