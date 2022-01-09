@@ -8,8 +8,10 @@ using System.Linq;
 
 public class Cardinal : MonoBehaviour
 {
-    public static int NumberOfActiveNPC = 0;
-    public static int RequiredNumberOfNPC = 2;
+    [SerializeField]
+    public int NumberOfActiveNPC = 0;
+    [SerializeField]
+    public int RequiredNumberOfNPC = 2;
     //public readonly Vector3 SPAWN_POINT = new(-35, 0, -40);
     public readonly Vector3 SPAWN_POINT = new(0, 0, 20);
     public static List<Mission> missions = new();

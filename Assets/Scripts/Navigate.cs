@@ -13,9 +13,11 @@ public class Navigate : MonoBehaviour
     private Kitchen kitchen;
     private int queueNumber = 0;
     private GameObject NPC;
+    private Cardinal cardinal;
     void Start()
     {
         kitchen = GameObject.Find("/Cafe/OrderLocation").GetComponent<Kitchen>();
+        cardinal = GameObject.Find("/Cardinal").GetComponent<Cardinal>();
         agent = GetComponent<NavMeshAgent>();
         animator = transform.parent.GetComponent<Animator>();
         talkUI = transform.Find("TalkTrigger/Canvas").gameObject;
@@ -69,7 +71,7 @@ public class Navigate : MonoBehaviour
                     break;
                 case NavLocationType.Leave:
                     Destroy(NPC);
-                    Cardinal.NumberOfActiveNPC -= 1;
+                    cardinal.NumberOfActiveNPC -= 1;
                     break;
             }
         }

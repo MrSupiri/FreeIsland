@@ -21,32 +21,32 @@ ModelImporter:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Ch13_1001_Diffuse
-    second: {fileID: 2800000, guid: 5864cd8e01c525540966dbb198dd33a6, type: 3}
+    second: {fileID: 2800000, guid: 9289cb593ba286640a8d36b3f14f2de1, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Ch13_1001_Glossiness
-    second: {fileID: 2800000, guid: 6529f3cb6e068fa408319a807db0375a, type: 3}
+    second: {fileID: 2800000, guid: 0e3f3752332211a4da5f5d9e269c87a5, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Ch13_1001_Normal
-    second: {fileID: 2800000, guid: b2a9187a9bd8c5040872e41432d1a1bd, type: 3}
+    second: {fileID: 2800000, guid: dec3187e76f12fc488207bdf694b74d4, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Ch13_1001_Specular
-    second: {fileID: 2800000, guid: 6bc912bbc88507f4d884d9cb2e1ac272, type: 3}
+    second: {fileID: 2800000, guid: 96a796ab3c73ada478e403c2aa29077b, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Ch13_1002_Diffuse
-    second: {fileID: 2800000, guid: 7f6d032989f5e544ca0e2a1f102464a4, type: 3}
+    second: {fileID: 2800000, guid: e3a82e2ece614f34f99049aeb0805f43, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Ch13_1002_Normal
-    second: {fileID: 2800000, guid: 88363c9e93b4f8a419c40ea060127f8b, type: 3}
+    second: {fileID: 2800000, guid: 98c6aac7dd685034c86d8a761cb899a7, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -56,7 +56,7 @@ ModelImporter:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 1
-    optimizeGameObjects: 1
+    optimizeGameObjects: 0
     removeConstantScaleCurves: 1
     motionNodeName: 
     rigImportErrors: 
@@ -99,7 +99,7 @@ ModelImporter:
     skinWeightsMode: 0
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
-    optimizeBones: 1
+    optimizeBones: 0
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
