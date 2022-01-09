@@ -48,7 +48,7 @@ public class Chat : MonoBehaviour
     }
     public float GetTip(float value)
     {
-        return Math.Max(value * Stratification, 0);
+        return Math.Max(value * Stratification, value);
     }
     private void OnEnable()
     {
