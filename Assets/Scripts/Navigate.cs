@@ -62,12 +62,10 @@ public class Navigate : MonoBehaviour
             switch (navLocationType)
             {
                 case NavLocationType.Order:
-                    transform.LookAt(orderLoaction);
-                    //Stop();
+                    LookAt(transform, orderLoaction);
                     break;
                 case NavLocationType.FreeSpot:
-                    transform.LookAt(orderLoaction);
-                    //Stop();
+                    LookAt(transform, orderLoaction);
                     break;
                 case NavLocationType.Leave:
                     Destroy(NPC);
@@ -115,6 +113,14 @@ public class Navigate : MonoBehaviour
     {
         return new Vector3(Random.Range(-3f, 25f), 0, Random.Range(10f, 20f));
     }
+
+    public static void LookAt(Transform transform, Transform target, int damping = 1)
+    {
+        var lookPos = target.position - transform.position;
+        lookPos.y = 0;
+        var rotation = Quaternion.LookRotation(lookPos);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, damping);
+    }
 }
 
 public enum NavLocationType
@@ -124,5 +130,4 @@ public enum NavLocationType
     Leave
 }
 
-// -3, 0, 20
-// 20, 0, 10
+// UnityEditor.TransformWorldPlacementJSON:{"position":{"x":8.489999771118164,"y":0.0,"z":-0.6180000305175781},"rotation":{"x":0.0,"y":0.0,"z":0.0,"w":1.0},"scale":{"x":1.0,"y":1.0,"z":1.0}}
